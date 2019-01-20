@@ -8,7 +8,7 @@ The easiest way to run this code without installing any package:
 2) Open your Google Drive.
 3) Make a folder entitled Colab inside your Drive.
 4) Put the cloned code inside this folder. 
-5) Check that the code path inside your Drive is "/My Drive/Colab/DynAE" to avoid making any change inside the notebook.
+5) Check that the code path inside your Drive is "/My Drive/Colab/DynAE" to avoid making changes to your notebook.
 6) Run the nootebook "dynAE.ipynb" using Google Colaboratory.
 
 
