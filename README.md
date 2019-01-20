@@ -12,4 +12,4 @@ The easiest way to run the code:
 6) Run the nootebook "dynAE.ipynb" using Google Colaboratory.
 
 
-*We have already provided pretrained weights for MNIST.
+We have already prepared pretrained weights for MNIST.
