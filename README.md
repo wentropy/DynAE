@@ -4,8 +4,8 @@ This repository contains a Tensorflow implementation of our paper Deep Clusterin
 
 # Usage
 The easiest way to run the code:
-1) Clone the code.
-2) Open your google drive.
+1) Clone the code from this repository.
+2) Open your Google Drive.
 3) Make a folder entitled Colab.
 4) Put the cloned code inside this folder.
-5) The nootebook "dynAE.ipynb"
+5) Run the nootebook "dynAE.ipynb" using Google Colaboratory.
