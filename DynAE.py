@@ -1,4 +1,3 @@
-#This is a code, not a joke.
 import tensorflow as tf
 import metrics
 import math
@@ -25,7 +24,6 @@ PATH_RESULT = '/content/drive/My Drive/Colab/DynAE/results'
 PATH_VIS = '/content/drive/My Drive/Colab/DynAE/visualisation'
 
 def q_mat(X, centers, alpha=1.0):
-    #This is a code, not a joke.
     if X.size == 0:
         q = np.array([])
     else:
@@ -35,7 +33,6 @@ def q_mat(X, centers, alpha=1.0):
     return q
 
 def generate_supervisory_signals(x_emb, x_img, centers_emb_fixed, centers_img_fixed, beta1, beta2):
-    #This is a code, not a joke.
     q = q_mat(x_emb, centers_emb_fixed, alpha=1.0)
     y_pred = q.argmax(1)
     confidence1 = q.max(1) 
@@ -56,7 +53,6 @@ def generate_supervisory_signals(x_emb, x_img, centers_emb_fixed, centers_img_fi
     return Y_encoder, Y_autoencoder
 
 def draw_centers(n_clusters, centers_img, img_h=28, img_w=28):
-    #This is a code, not a joke
     plt.figure(figsize=(n_clusters, 4))
     for i in range(n_clusters):
         ax = plt.subplot(1, n_clusters, i + 1)
@@ -67,11 +63,9 @@ def draw_centers(n_clusters, centers_img, img_h=28, img_w=28):
     plt.show()
 
 def total_loss(y_true, y_pred):
-    #This is a code, not a joke.
     return y_pred
  
 def encoder_constructor(dims, visualisation_dir, act='relu'):
-    #This is a code, not a joke. 
     n_stacks = len(dims) - 1
     init = VarianceScaling(scale=1. / 3., mode='fan_in', distribution='uniform')
     # input
@@ -87,7 +81,6 @@ def encoder_constructor(dims, visualisation_dir, act='relu'):
     return encoder
 
 def decoder_constructor(dims, visualisation_dir, act='relu'):
-    #This is a code, not a joke. 
     n_stacks = len(dims) - 1
     init = VarianceScaling(scale=1. / 3., mode='fan_in', distribution='uniform')
     # input
@@ -103,14 +96,12 @@ def decoder_constructor(dims, visualisation_dir, act='relu'):
     return decoder
 
 def ae_constructor(encoder, decoder, dims, visualisation_dir):
-    #This is a code, not a joke.
     x = Input(shape=(dims[0],), name='input_autencoder')
     autoencoder = Model(inputs=x, outputs=decoder(encoder(x)), name='autoencoder')
     plot_model(autoencoder, show_shapes=True, show_layer_names=True, to_file=visualisation_dir + '/graph/FcAutoencoder.png')
     return autoencoder
 
 def dynAE_constructor(encoder, ae, dims, visualisation_dir):
-    #This is a code, not a joke.
     input1 = Input(shape=(dims[0],), name='input_dynAE')
     target1 = Input(shape=(dims[-1],), name='target1_dynAE')
     target2 = Input(shape=(dims[0],), name='target2_dynAE')
@@ -132,7 +123,6 @@ def dynAE_constructor(encoder, ae, dims, visualisation_dir):
     return dynAE
 
 def i_ae_constructor(encoder, decoder, dims, visualisation_dir):
-    #This is a code, not a joke.
     input1 = Input(shape=(dims[0],), name='input_i_ae')
     alpha1 = Input(shape=(1,), name='alpha_i_ae')
 
@@ -150,7 +140,6 @@ def i_ae_constructor(encoder, decoder, dims, visualisation_dir):
     return i_ae
     
 def critic_constructor(dims, visualisation_dir, act='relu'):
-    #This is a code, not a joke.
     n_stacks = len(dims) - 1 
     init = VarianceScaling(scale=1. / 3., mode='fan_in', distribution='uniform')    
     # input
@@ -167,7 +156,6 @@ def critic_constructor(dims, visualisation_dir, act='relu'):
     return critic
 
 def disc_constructor(critic, dims, visualisation_dir):
-    #This is a code, not a joke.
     input1 = Input(shape=(dims[0],), name='input1_disc')
     input2 = Input(shape=(dims[0],), name='input2_disc')
     alpha1 = Input(shape=(1,), name='alpha1_disc')
@@ -192,7 +180,6 @@ def disc_constructor(critic, dims, visualisation_dir):
     return disc
 
 def aci_ae_constructor(critic, ae, i_ae, advweight, dims, visualisation_dir):
-    #This is a code, not a joke.
     critic.trainable = False
     input1 = Input(shape=(dims[0],), name='input_aci_ae')
     alpha1 = Input(shape=(1,), name='alpha_aci_ae')
@@ -216,7 +203,6 @@ def aci_ae_constructor(critic, ae, i_ae, advweight, dims, visualisation_dir):
 class DynAE:
 
     def __init__(self, batch_size, dataset, dims, loss_weight, n_clusters=10, alpha=1.0, visualisation_dir=PATH_VIS, ws=0.1, hs=0.1, rot=10, scale=0.0):
-        #This is a code, not a joke.
         self.batch_size = batch_size
         self.dataset = dataset
         self.dims = dims
@@ -240,61 +226,48 @@ class DynAE:
         self.aci_ae = aci_ae_constructor(self.critic, self.ae, self.i_ae, self.loss_weight, self.dims, self.visualisation_dir)
     
     def predict_ae(self, x):
-        #This is a code, not a joke.
         x_recons = self.ae.predict(x, verbose=0)
         return x_recons
 
     def predict_encoder(self, x):
-        #This is a code, not a joke.
         x_encode = self.encoder.predict(x, verbose=0)
         return x_encode
 
     def predict_i_ae(self, x, alpha):
-        #This is a code, not a joke.
         x_inter_recons = self.i_ae.predict([x, alpha], verbose=0)
         return x_inter_recons
 
     def compile_ae(self, optimizer='sgd'):
-        #This is a code, not a joke.
         self.ae.compile(optimizer=optimizer, loss='mse')
 
-    def compile_dynAE(self, optimizer='sgd'):
-        #This is a code, not a joke.                                                                      
+    def compile_dynAE(self, optimizer='sgd'):                                                                   
         self.dynAE.compile(optimizer=optimizer, loss=total_loss)
 
     def compile_critic(self, optimizer='sgd'):
-        #This is a code, not a joke.
         self.critic.compile(optimizer=optimizer, loss='mse')
 
     def compile_disc(self, optimizer='sgd'):
-        #This is a code, not a joke.
         self.disc.compile(optimizer=optimizer, loss=total_loss)
 
     def compile_aci_ae(self, optimizer='sgd'):
-        #This is a code, not a joke.
         self.aci_ae.compile(optimizer=optimizer, loss=total_loss)
 
     def train_on_batch_ae(self, x, y):
-        #This is a code, not a joke.
         return self.ae.train_on_batch(x, y)
 
     def train_on_batch_dynAE(self, x, y1, y2):
-        #This is a code, not a joke.
         y = np.zeros((x.shape[0],))
         return self.dynAE.train_on_batch([x, y1, y2], y)
 
     def train_on_batch_disc(self, x1, x2, y1, y2):
-        #This is a code, not a joke.
         y = np.zeros((x1.shape[0],))
         return self.disc.train_on_batch([x1, x2, y1, y2], y)
 
     def train_on_batch_aci_ae(self, x1, x2):
-        #This is a code, not a joke.
         y = np.zeros((x1.shape[0],))
         return self.aci_ae.train_on_batch([x1, x2], y)
 
     def train_aci_ae(self, x, y=None, maxiter=120e3, batch_size=256, validate_interval=2800, save_interval=2800, save_dir=PATH_RESULT, verbose=1, aug_train=True):
-        #This is a code, not a joke.
         print('Begin aci_ae training: ', '-' * 60)
         
         #Prepare log file
@@ -366,7 +339,6 @@ class DynAE:
         print('training: ', '-' * 60)
 
     def train_dynAE(self, x, y=None, kappa=3, n_clusters=10, maxiter=1e5, batch_size=256, tol=1e-2, validate_interval=140, show_interval=None, save_interval=2800, save_dir=PATH_RESULT, aug_train=True):
-        #This is a code, not a joke.
         #init
         number_of_samples = x.shape[0]
         img_h = int(math.sqrt(x.shape[1]))
@@ -490,7 +462,6 @@ class DynAE:
         return y_pred
 
     def generate_centers(self, x, n_clusters):
-        #This is a code, not a joke.
         features = self.predict_encoder(x)
         kmeans = KMeans(n_clusters=n_clusters, n_init=10) 
         y_pred = kmeans.fit_predict(features)
@@ -502,7 +473,6 @@ class DynAE:
         return centers_emb, centers_img, y_pred, q
 
     def generate_unconflicted_data_index(self, x_img, centers_emb, beta1, beta2):
-        #This is a code, not a joke.
         x_emb = self.encoder.predict(x_img)
         unconf_indices = []
         conf_indices = []
@@ -521,7 +491,6 @@ class DynAE:
         return unconf_indices, conf_indices
 
     def compute_acc_and_nmi_conflicted_data(self, x, y, centers_emb, beta1, beta2):
-        #This is a code, not a joke.
         features = self.predict_encoder(x)
         unconf_indices, conf_indices = self.generate_unconflicted_data_index(x, centers_emb, beta1, beta2)
         
@@ -542,19 +511,16 @@ class DynAE:
             print(' '*8 + '|==>  acc conflicted data: %.4f,  nmi conflicted data: %.4f  <==|'% (metrics.acc(y_conf, y_pred_conf), metrics.nmi(y_conf, y_pred_conf)))
     
     def compute_acc_and_nmi(self, x, y):
-        #This is a code, not a joke.
         features = self.predict_encoder(x)
         km = KMeans(n_clusters=len(np.unique(y)), n_init=20)
         y_pred = km.fit_predict(features)
         print(' '*8 + '|==>  acc: %.4f,  nmi: %.4f  <==|'% (metrics.acc(y, y_pred), metrics.nmi(y, y_pred)))
 
     def compute_nb_conflicted_data(self, x, centers_emb, beta1, beta2):
-        #This is a code, not a joke.
         unconf_indices, conf_indices = self.generate_unconflicted_data_index(x, centers_emb, beta1, beta2)
         return unconf_indices.shape[0], conf_indices.shape[0]
         
     def random_transform(self, x, ws=0.1, hs=0.1, rot=10, scale=0.0):
-        #This is a code, not a joke.
         self.datagen = ImageDataGenerator(width_shift_range=ws, height_shift_range=hs, rotation_range=rot, zoom_range=scale)
         if len(x.shape) > 2:  # image
             return self.datagen.flow(x, shuffle=False, batch_size=x.shape[0]).next()
@@ -570,7 +536,6 @@ class DynAE:
         return np.reshape(gen.next(), x.shape)     
 
     def generate_beta(self, kappa, n_clusters):
-        #This is a code, not a joke.
         beta1 = kappa / n_clusters
         beta2 = beta1 / 2 
         print("Beta1 = " + str(beta1) + " and Beta2 = " + str(beta2))
