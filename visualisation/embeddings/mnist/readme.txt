@@ -1,1 +1,1 @@
-Here we save the embeddings of mnist.
+Here we save the embeddings for mnist.
