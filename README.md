@@ -8,4 +8,4 @@ The easiest way to run the code:
 2) Open your google drive.
 3) Make a folder entitled Colab.
 4) Put the cloned code inside this folder.
-5) The nootebook "DynAE.ipnb"
+5) The nootebook "dynAE.ipynb"
